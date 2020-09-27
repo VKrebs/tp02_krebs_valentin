@@ -14,8 +14,6 @@ export class FormulaireCompteComponent implements OnInit {
 
   onSubmit(): void
   {
-    alert('Form Submitted succesfully!');
-    console.table(this.account);
     this.validated = true;
   }
 
