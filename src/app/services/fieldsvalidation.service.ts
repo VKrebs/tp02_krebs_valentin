@@ -96,7 +96,7 @@ export class FieldsvalidationService {
       let errors = {};
 
       // Checking Name Format
-      const regex = new RegExp('^[0-9_-]{10}$');
+      const regex = new RegExp('^\\+[0-9\s]{11,13}$');
       if (!regex.test(cleaned))
       {
         errors["invalidPhoneNumber"] = hasError = true;

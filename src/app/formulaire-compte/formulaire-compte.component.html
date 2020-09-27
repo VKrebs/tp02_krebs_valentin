@@ -162,8 +162,8 @@
             <!-- CONTACT INFORMATIONS -->
             <div class="form-group">
                 <label for="phone">Téléphone</label>
-                <input type="phone" class="form-control" name="phone" id="phone" placeholder="01 14 28 72 46"
-                    maxlength="14"
+                <input type="phone" class="form-control" name="phone" id="phone" placeholder="+33 1 14 28 72 46"
+                    maxlength="18"
                     [ngModel]="account.phone | phoneNumber"
                     (ngModelChange)="account.phone=$event"
                     #phone="ngModel"
@@ -177,7 +177,7 @@
                         </div>
                         <div class="row">
                             <span class="text-danger" *ngIf="phone.touched && phone.errors?.invalidPhoneNumber">
-                                Le numéro de téléphone doit contenir 10 chiffres.
+                                Le numéro de téléphone doit être au format international (+xxx x xx xx xx xx).
                             </span>
                         </div>
                     </div>
