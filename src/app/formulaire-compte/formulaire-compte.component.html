@@ -1,0 +1,280 @@
+<form *ngIf="validated == false" class="form" #registerForm="ngForm"
+    [appMatchPassword]="['password', 'passwordConfirmation']"
+    (ngSubmit)="registerForm.form.valid && onSubmit()" novalidate>
+    <div class="row">
+        <div class="col-md-4 offset-md-4 rounded border-0">
+            <h1 class="text-center">Formulaire de création de compte</h1>
+        </div>
+        
+        <div id="mainContainer" class="col-md-4 offset-md-4 rounded border-0">
+
+            <!-- CIVILITY -->
+            <label>Civilité</label>
+            <div class="container">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="civility" value="Monsieur" [(ngModel)]="account.civility" #civility="ngModel" required> Monsieur
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="civility" value="Madame" [(ngModel)]="account.civility" #civility="ngModel" required> Madame
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(civility.touched || registerForm.submitted) && civility.errors?.required">
+                            Une case doit être cochée!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAME INFORMATIONS -->
+            <div class="form-group">
+                <label for="lastname">Nom</label>
+                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Dupont"
+                    maxlength=25
+                    [ngModel]="account.lastname | uppercase"
+                    (ngModelChange)="account.lastname=$event"
+                    #lastname="ngModel" 
+                    appValidateName required>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(lastname.touched || registerForm.submitted) && lastname.errors?.required">
+                            Le nom doit être renseigné!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="lastname.touched && lastname.errors?.invalidName">
+                            Le nom doit contenir uniquement des lettres!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="firstname">Prénom</label>
+                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Jean"
+                    maxlength=25
+                    [ngModel]="account.firstname | titlecase"
+                    (ngModelChange)="account.firstname=$event"
+                    #firstname="ngModel" 
+                    appValidateName required>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(firstname.touched || registerForm.submitted) && firstname.errors?.required">
+                            Le prénom doit être renseigné!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="firstname.touched && firstname.errors?.invalidName">
+                            Le prénom doit contenir uniquement des lettres!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADDRESS INFORMATIONS -->
+
+            <div class="form-group">
+                <label for="address">Adresse</label>
+                <input type="text" class="form-control" name="address" id="address"
+                    pattern="^[0-9]{1,3},{0,1}\s[A-Za-z_-\s]{1,36}" maxlength="38"
+                    [(ngModel)]="account.address"
+                    #address="ngModel"
+                    required>
+                    <div class="container">
+                        <div class="row">
+                            <span class="text-danger" *ngIf="(address.touched || registerForm.submitted) && address.errors?.required">
+                                L'adresse doit être renseignée!
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="text-danger" *ngIf="address.touched && address.errors?.pattern">
+                                L'adresse doit commencer par le numéro de rue et être suivie par le nom de celle-ci!
+                            </span>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cp">Code Postal</label>
+                <input type="text" class="form-control" name="cp" id="cp"
+                    pattern="[0-9]{5}" maxlength="5"
+                    [(ngModel)]="account.postalcode"
+                    #cp="ngModel"
+                    required>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(cp.touched || registerForm.submitted) && cp.errors?.required">
+                            Le code postal doit être renseigné!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="cp.touched && cp.errors?.pattern">
+                            Le code postal doit contenir 5 chiffres!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="city">Ville</label>
+                <input type="text" class="form-control" name="city" id="city"
+                    pattern="[a-zA-Z_-]{1,30}" maxlength="30"
+                    [ngModel]="account.city | uppercase"
+                    (ngModelChange)="account.city=$event"
+                    #city="ngModel" 
+                    required>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(city.touched || registerForm.submitted) && city.errors?.required">
+                            La ville doit être renseignée!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="city.touched && city.errors?.pattern">
+                            Le ville doit contenir uniquement des lettres!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Pays</label>
+                <input type="text" class="form-control" name="country" id="country"
+                    pattern="[a-zA-Z_-\s]{1,30}" maxlength="30"
+                    [ngModel]="account.country | uppercase"
+                    (ngModelChange)="account.country=$event"
+                    #country="ngModel" 
+                    required>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(country.touched || registerForm.submitted) && country.errors?.required">
+                            Le pays doit être renseignée!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="country.touched && country.errors?.pattern">
+                            Le pays doit contenir uniquement des lettres!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTACT INFORMATIONS -->
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="phone" class="form-control" name="phone" id="phone" placeholder="01 14 28 72 46"
+                    maxlength="14"
+                    [ngModel]="account.phone | phoneNumber"
+                    (ngModelChange)="account.phone=$event"
+                    #phone="ngModel"
+                    appValidatePhoneNumber
+                    required>
+                    <div class="container">
+                        <div class="row">
+                            <span class="text-danger" *ngIf="(phone.touched || registerForm.submitted) && phone.errors?.required">
+                                Le numéro de téléphone doit être renseigné!
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="text-danger" *ngIf="phone.touched && phone.errors?.invalidPhoneNumber">
+                                Le numéro de téléphone doit contenir 10 chiffres.
+                            </span>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="nom@domaine.com"
+                    maxlength="50"
+                    [(ngModel)]="account.email"
+                    #email="ngModel"
+                    required
+                    email>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(email.touched || registerForm.submitted) && email.errors?.required">
+                            L'email doit être renseigné!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="email.touched && email.errors?.email">
+                            Entrez un email valide.
+                        </span>
+                    </div>
+                </div>
+            </div> 
+
+
+            <!-- CONNECTION INFORMATIONS-->
+            <div class="form-group">
+                <label for="login">Login</label>
+                <input type="text" class="form-control" name="login" id="login" placeholder="Pseudonyme"
+                    maxlength="15"
+                    [(ngModel)]="account.login"
+                    #login="ngModel"
+                    appValidateUsername required>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(login.touched || registerForm.submitted) && login.errors?.required">
+                            Le nom d'utilisateur doit être renseigné!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="login.touched && login.errors?.invalidUsername">
+                            Le nom d'utilisateur ne doit contenir que des caractères alpha-numériques et doit compter au moins 3 caractères.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" class="form-control" name="password" placeholder="**********" 
+                    maxlength=30
+                    [(ngModel)]="account.password"
+                    #password="ngModel" 
+                    appPasswordPattern required>
+                <div class="container">
+                    <div class="row">
+                        <span class="text-danger" *ngIf="(password.touched || registerForm.submitted) && password.errors?.required">
+                            Le mot de passe doit être renseigné!
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-danger" *ngIf="password.touched && password.errors?.invalidPassword">
+                            Le taille minimum du mot de passe doit être de 8 caractères et celui-ci doit contenir au moins une majuscule, une minuscule, un caractère spécial et un chiffre!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="passwordConfirmation">Confirmation mot de passe</label>
+                <input type="password" class="form-control" name="passwordConfirmation" placeholder="**********"
+                    maxlength=30
+                    [(ngModel)]="passwordConfirmation"
+                    #confirmPassword="ngModel"
+                    required>
+                    <div class="container">
+                        <div class="row">
+                            <span class="text-danger" *ngIf="(confirmPassword.touched || registerForm.submitted) && confirmPassword.errors?.required">
+                                Le mot de passe doit être renseigné!
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="text-danger" *ngIf="(confirmPassword.touched || registerForm.submitted) && confirmPassword.errors?.passwordMissmatch">
+                                Les mots de passes ne correspondent pas!
+                            </span>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-group">    
+                <button type="submit" class="btn btn-success">Confirmer</button> 
+            </div>  
+        </div>
+    </div>
+</form>
+
+<app-recapitulatif-compte *ngIf="validated" [account]="account"></app-recapitulatif-compte>
